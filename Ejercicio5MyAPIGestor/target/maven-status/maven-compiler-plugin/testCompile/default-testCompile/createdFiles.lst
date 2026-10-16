@@ -1,0 +1,5 @@
+com\mx\cbtis\gestor\controller\ProyectosControllerTest.class
+com\mx\cbtis\gestor\controller\UsuarioControllerTest.class
+com\mx\cbtis\gestor\controller\ComentariosControllerTest.class
+com\mx\cbtis\gestor\controller\AsignacionesControllerTest.class
+com\mx\cbtis\gestor\controller\TareasControllerTest.class
