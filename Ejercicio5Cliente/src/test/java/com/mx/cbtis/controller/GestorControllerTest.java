@@ -489,8 +489,8 @@ class GestorControllerTest {
     }
 
     @Test
-    @DisplayName("UT-25 POST /saveComentario guarda el comentario y devuelve la vista proyecto")
-    void saveComentario_devuelveVistaProyecto() throws Exception {
+    @DisplayName("UT-25 POST /saveComentario guarda el comentario y devuelve el resultado del backend")
+    void saveComentario_devuelveResultado() throws Exception {
         when(restTemplate.postForEntity(anyString(), any(), eq(Integer.class)))
                 .thenReturn(ResponseEntity.ok(1));
 
@@ -498,9 +498,21 @@ class GestorControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JSON_COMENTARIO))
                 .andExpect(status().isOk())
-                .andExpect(view().name("proyecto"));
+                .andExpect(content().string("1"));
 
         verify(restTemplate).postForEntity(eq(API + "/addComentario"), any(Comentarios.class), eq(Integer.class));
+    }
+
+    @Test
+    @DisplayName("UT-39 POST /saveComentario con backend caido devuelve 503")
+    void saveComentario_backendCaido_devuelve503() throws Exception {
+        when(restTemplate.postForEntity(anyString(), any(), eq(Integer.class)))
+                .thenThrow(new RestClientException("Backend no disponible"));
+
+        mockMvc.perform(post("/saveComentario")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSON_COMENTARIO))
+                .andExpect(status().isServiceUnavailable());
     }
 
     @Test

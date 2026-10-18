@@ -449,7 +449,7 @@ function guardarComentario(){
             },
             error: function(error) {
                 console.error('Error al guardar el comentario:', error);
-                // Manejar errores según sea necesario
+                alert('No se pudo guardar el comentario');
             }
         }); 
 	
@@ -510,7 +510,7 @@ function comentarios(idTarea){
 
 function IrInicio(){
 	window.location.href = 'inicio';
-}
+
 
 function obtenerInfo(datos, objetivo, nombre) {
 	var nuevoTexto = "¿Esta seguro que sea eliminar la tarea " + nombre + "?";

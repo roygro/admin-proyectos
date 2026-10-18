@@ -85,8 +85,8 @@ public class GestorController {
 	public ModelAndView setSaveUsuario(@ModelAttribute Usuario usuario) {
 
 		// CAMBIO: valida los datos antes de llamar a la API
-<span class="pc bpc" id="L88" title="1 of 4 branches missed.">		if (usuario.getCorreo_electronico() == null || usuario.getCorreo_electronico().trim().isEmpty()</span>
-<span class="pc bpc" id="L89" title="2 of 4 branches missed.">				|| usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {</span>
+<span class="fc bfc" id="L88" title="All 4 branches covered.">		if (usuario.getCorreo_electronico() == null || usuario.getCorreo_electronico().trim().isEmpty()</span>
+<span class="fc bfc" id="L89" title="All 4 branches covered.">				|| usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {</span>
 <span class="fc" id="L90">			return new ModelAndView(&quot;redirect:/register?error&quot;);</span>
 		}
 

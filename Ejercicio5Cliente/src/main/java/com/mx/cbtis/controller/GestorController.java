@@ -265,20 +265,36 @@ public class GestorController {
 	@PostMapping("/saveTarea")
 	public ModelAndView setSaveTareas(@ModelAttribute Tareas tareas) {
 
-		String urlservicebd = "http://localhost:8081/addTareas";
-		ResponseEntity<Integer> response = template.postForEntity(urlservicebd, tareas, Integer.class);
 		ModelAndView mav = new ModelAndView("redirect:/proyecto");
 		mav.addObject("id_proyecto", tareas.getId_proyecto());
+
+		// CAMBIO: valida la fecha antes de llamar a la API
+		if (tareas.getFecha_vencimiento() == null
+				|| tareas.getFecha_vencimiento().toString().trim().isEmpty()) {
+			mav.addObject("error", "fecha");
+			return mav;
+		}
+
+		String urlservicebd = "http://localhost:8081/addTareas";
+		try {
+			template.postForEntity(urlservicebd, tareas, Integer.class);
+		} catch (RestClientException e) {
+			// CAMBIO: API caida o con error -> redirige con error en vez de 500
+			mav.addObject("error", "servidor");
+		}
 
 		return mav;
 	}
 	@PostMapping("/saveComentario")
-	public String setSaveComentario(@RequestBody Comentarios comentarios) {
+	public ResponseEntity<Object> setSaveComentario(@RequestBody Comentarios comentarios) {
 
 		String urlservicebd = "http://localhost:8081/addComentario";
-		ResponseEntity<Integer> response = template.postForEntity(urlservicebd, comentarios, Integer.class);
-
-		return "proyecto";
+		try {
+			ResponseEntity<Integer> response = template.postForEntity(urlservicebd, comentarios, Integer.class);
+			return new ResponseEntity<Object>(response.getBody(), response.getStatusCode());
+		} catch (RestClientException e) {
+			return errorServicio(e);
+		}
 	}
 
 
